@@ -1,0 +1,73 @@
+﻿<Window x:Class="Gallery.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gallery"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="350" Width="525">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto" Name="expanderRow"/>
+        </Grid.RowDefinitions>
+
+        <Expander x:Name="expandBrowser" ExpandDirection="Right" HorizontalAlignment="Left" IsExpanded="True">
+            <Expander.Content>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="5"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ScrollViewer>
+                        <TreeView x:Name="treeView"/>
+                    </ScrollViewer>
+                    
+                    <GridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndCurrent" ResizeDirection="Columns"/>
+                </Grid>
+            </Expander.Content>
+        </Expander>
+        <GridSplitter Visibility="Collapsed" x:Name="expander" Grid.Row="1"  HorizontalAlignment="Stretch" Height="5" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext" Grid.ColumnSpan="2"/>
+
+        <Expander x:Name="expandLibrary" ExpandDirection="Up" Grid.Row="2" Grid.ColumnSpan="2"
+                  Expanded="Expander_Expanded"
+                  Collapsed="Expander_Collapsed" IsExpanded="True">
+            <Expander.Content>
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" TextWrapping="Wrap" Text="Library"/>
+                    <ScrollViewer Grid.Row="1">
+                        <ListBox>
+                            
+                        </ListBox>
+                    </ScrollViewer>
+                </Grid>
+            </Expander.Content>
+        </Expander>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Image x:Name="image" Margin="0"/>
+            <WrapPanel Grid.Row="1" HorizontalAlignment="Center">
+                <Button Content="•" Width="25" Height="25"/>
+                <Button Content="•" Width="25" Height="25"/>
+                <Button Content="•" Width="25" Height="25"/>
+                <Button Content="•" Width="25" Height="25"/>
+            </WrapPanel>
+
+        </Grid>
+
+    </Grid>
+</Window>
