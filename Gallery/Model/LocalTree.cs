@@ -12,16 +12,15 @@ namespace Gallery
 
     /*
      * Tree logic:
-     * Tree starts with all drives visible to user as roots, actual root is hidden
+     * Tree starts with all drives visible to user
      * All drives also filled with their subfolders to properly display expand button
      * When user expands node Expand() method is invoked
      * It add all images to expanded node
      * And since node already contains it's subfolders, Expand() method adds subfolders to subfolders instead
      */
-    class LocalTree: iTree
+    class LocalTree
     {
-        public TreeBranch Trunk
-        { get; private set; }
+        public List<TreeBranch> Root;
 
         /* In constructor:
          * Create branch for each found drive and add it to root
@@ -29,12 +28,12 @@ namespace Gallery
          */
         public LocalTree()
         {
-            Trunk = new TreeBranch("PC", "");
+            Root = new List<TreeBranch>();
             string[] drives = Directory.GetLogicalDrives();
             foreach (var d in drives)
             {
                 TreeBranch Drive = new TreeBranch(Path.GetFileName(d), d);
-                Trunk.Children.Add(Drive);
+                Root.Add(Drive);
                 AddFoldersTo(Drive);
             }
         }
@@ -72,7 +71,13 @@ namespace Gallery
         // And since node already contains it's subfolders, id adds subfolders to subfolders
         public void Expand(string name)
         {
-            TreeBranch ExpandedNode = Trunk.Find(name, true) as TreeBranch;
+            TreeBranch ExpandedNode = null;
+            foreach (var drive in Root)
+            {
+                ExpandedNode = drive.Find(name, true) as TreeBranch;
+                if (ExpandedNode != null)
+                    break;
+            }
             AddImagesTo(ExpandedNode);
             foreach (TreeBranch child in ExpandedNode.Children)
                 AddFoldersTo(child);
