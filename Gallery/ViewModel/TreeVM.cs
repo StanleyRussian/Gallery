@@ -10,6 +10,6 @@ namespace Gallery
     // ViewModel class for iTree implementation
     class TreeVM
     {
-
+        
     }
 }
