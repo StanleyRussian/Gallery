@@ -13,5 +13,18 @@ namespace Gallery
     /// </summary>
     public partial class App : Application
     {
+        private void OnStartup(object sender, StartupEventArgs e)
+        {
+            iGallery GalleryM = new LocalGallery();
+            iTree TreeM = new LocalTree();
+
+            GalleryViewModel GalleryVM = new GalleryViewModel(GalleryM);
+            TreeViewModel TreeVM = new TreeViewModel(TreeM);
+
+            MainWindow MainW = new MainWindow(GalleryVM, TreeVM);
+            //MainW.listviewGallery.DataContext = GalleryVM;
+            //MainW.treeviewFolderBrowser.DataContext = TreeVM;
+            MainW.Show();
+        }
     }
 }

@@ -19,6 +19,7 @@ namespace Gallery
         public TreeItem(string name, string path)
         {
             Name = name;
+            Fullpath = path;
         }
     }
 
@@ -30,7 +31,9 @@ namespace Gallery
 
         public TreeBranch(string name, string path)
             :base (name, path)
-        { }
+        {
+            Children = new List<TreeItem>();
+        }
 
         // Method to find first occurence of TreeItem with given name
         // Second parameter define will children be searched or not

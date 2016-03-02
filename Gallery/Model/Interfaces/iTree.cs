@@ -10,7 +10,7 @@ namespace Gallery
     // TreeViewModel (TreeVM) adresses this interface
     interface iTree
     {
-        TreeBranch Trunk { get; }
+        List<TreeBranch> Children { get; }
 
         void Expand(string name);
     }

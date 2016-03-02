@@ -6,6 +6,14 @@
         xmlns:local="clr-namespace:Gallery"
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type local:LocalImage}">
+            <Border Margin="3">
+                <Image Source="{Binding Path}" MaxHeight="100" MaxWidth="150"/>
+            </Border>
+        </DataTemplate>
+    </Window.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto"/>
@@ -26,7 +34,13 @@
                     </Grid.ColumnDefinitions>
 
                     <ScrollViewer>
-                        <TreeView x:Name="treeView"/>
+                        <TreeView x:Name="treeviewFolderBrowser" ItemsSource="{Binding Branches}" MinWidth="100">
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Branches}">
+                                    <TreeViewItem Header="{Binding Name}" Expanded="TreeViewItem_Expanded"/>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
                     </ScrollViewer>
                     
                     <GridSplitter Grid.Column="1" Width="5" ResizeBehavior="PreviousAndCurrent" ResizeDirection="Columns"/>
@@ -46,9 +60,20 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" TextWrapping="Wrap" Text="Library"/>
                     <ScrollViewer Grid.Row="1">
-                        <ListBox>
-                            
-                        </ListBox>
+                        <ListView x:Name="listviewGallery" ItemsSource="{Binding ImageList}">
+                            <ListView.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel 
+                                        Width="{Binding (FrameworkElement.ActualWidth), 
+                                        RelativeSource={RelativeSource AncestorType=ScrollContentPresenter}}"
+                                        ItemWidth="{Binding (ListView.View).ItemWidth, 
+                                        RelativeSource={RelativeSource AncestorType=ListView}}"
+                                        MinWidth="{Binding ItemWidth, RelativeSource={RelativeSource Self}}"
+                                        ItemHeight="{Binding (ListView.View).ItemHeight, 
+                                        RelativeSource={RelativeSource AncestorType=ListView}}" />
+                                </ItemsPanelTemplate>
+                            </ListView.ItemsPanel>
+                        </ListView>
                     </ScrollViewer>
                 </Grid>
             </Expander.Content>

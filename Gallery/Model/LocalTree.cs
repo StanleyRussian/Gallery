@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 
 namespace Gallery
 {
-    // Implementation of iTree for local images
-    // Class representing entire tree with methods to manage it
-
     /*
      * Tree logic:
      * Tree starts with all drives visible to user
@@ -18,22 +15,25 @@ namespace Gallery
      * It add all images to expanded node
      * And since node already contains it's subfolders, Expand() method adds subfolders to subfolders instead
      */
-    class LocalTree
-    {
-        public List<TreeBranch> Root;
 
-        /* In constructor:
-         * Create branch for each found drive and add it to root
-         * Create branch for each folder in each drive and add them to corresponding drives
-         */
+    // Implementation of iTree for local images
+    // Class representing entire tree with methods to manage it
+    class LocalTree : iTree
+    {
+        public List<TreeBranch> Children
+        { get; private set; }
+
+        // In constructor:
+        // Create branch for each found drive and add it to root
+        // Create branch for each folder in each drive and add them to corresponding drives
         public LocalTree()
         {
-            Root = new List<TreeBranch>();
+            Children = new List<TreeBranch>();
             string[] drives = Directory.GetLogicalDrives();
             foreach (var d in drives)
             {
-                TreeBranch Drive = new TreeBranch(Path.GetFileName(d), d);
-                Root.Add(Drive);
+                TreeBranch Drive = new TreeBranch(d, d);
+                Children.Add(Drive);
                 AddFoldersTo(Drive);
             }
         }
@@ -41,14 +41,18 @@ namespace Gallery
         // Method finding all subfolders in corresponing folder of given TreeBranch and adding them as new TreeBranch
         private void AddFoldersTo (TreeBranch root)
         {
-            string[] folders = Directory.GetDirectories(root.Fullpath);
-            Parallel.ForEach(folders, (f) =>
+            try
             {
-                root.Children.Add(new TreeBranch(Path.GetFileName(f), f));
-            });
+                string[] folders = Directory.GetDirectories(root.Fullpath);
+                Parallel.ForEach(folders, (f) =>
+                {
+                    root.Children.Add(new TreeBranch(Path.GetFileName(f), f));
+                });
+            }
+            catch (UnauthorizedAccessException) { }
             //foreach (var f in folders)
             //    root.Children.Add(new TreeBranch(Path.GetFileName(f), f));
-            root.Children.Sort();
+            //root.Children.Sort();
         }
 
         // Method finding all images in corresponing folder of given TreeBranch and adding them as new TreeLeaf
@@ -72,12 +76,13 @@ namespace Gallery
         public void Expand(string name)
         {
             TreeBranch ExpandedNode = null;
-            foreach (var drive in Root)
+            foreach (var drive in Children)
             {
                 ExpandedNode = drive.Find(name, true) as TreeBranch;
                 if (ExpandedNode != null)
                     break;
             }
+
             AddImagesTo(ExpandedNode);
             foreach (TreeBranch child in ExpandedNode.Children)
                 AddFoldersTo(child);

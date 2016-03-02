@@ -15,7 +15,7 @@ namespace Gallery
         public string Contributor { get; private set; }
         public DateTime Added { get; private set; }
 
-        LocalImage(string path)
+        public LocalImage(string path)
         {
             Path = path;
             Added = new DateTime();

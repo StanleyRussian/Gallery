@@ -20,9 +20,16 @@ namespace Gallery
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow()
+        private iGalleryViewModel _gallery;
+        private iTreeViewModel _tree;
+
+        internal MainWindow(iGalleryViewModel GalleryVM, iTreeViewModel TreeVM)
         {
             InitializeComponent();
+            _gallery = GalleryVM;
+            listviewGallery.DataContext = GalleryVM;
+            _tree = TreeVM;
+            treeviewFolderBrowser.DataContext = TreeVM;
         }
 
         private GridLength expandedHeight = new GridLength(0.5, GridUnitType.Star);
@@ -38,6 +45,12 @@ namespace Gallery
             expandedHeight = expanderRow.Height;
             expanderRow.Height = GridLength.Auto;
             expander.Visibility = Visibility.Collapsed;
+        }
+
+        private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
+        {
+            TreeViewItem ExpandedNode = e.OriginalSource as TreeViewItem;
+            _tree.ExpandNode(ExpandedNode.Name);
         }
     }
 }

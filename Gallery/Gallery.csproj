@@ -81,8 +81,11 @@
     <Compile Include="Model\Interfaces\iTree.cs" />
     <Compile Include="Model\LocalImage.cs" />
     <Compile Include="Model\Auxiliary\TreeComposite.cs" />
-    <Compile Include="ViewModel\GalleryVM.cs" />
-    <Compile Include="ViewModel\TreeVM.cs" />
+    <Compile Include="ViewModel\GalleryViewModel.cs" />
+    <Compile Include="ViewModel\Interfaces\iGalleryViewModel.cs" />
+    <Compile Include="ViewModel\Interfaces\iTreeViewModel.cs" />
+    <Compile Include="ViewModel\TreeBranchViewModel.cs" />
+    <Compile Include="ViewModel\TreeViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
