@@ -24,7 +24,7 @@ namespace Gallery
     }
 
     // Expandable "Branch" item with Children property
-    class TreeBranch: TreeItem
+    class TreeBranch : TreeItem
     {
         public List<TreeItem> Children
         { get; private set; }

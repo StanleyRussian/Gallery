@@ -85,7 +85,7 @@
     <Compile Include="ViewModel\ImageViewModel.cs" />
     <Compile Include="ViewModel\Interfaces\iGalleryViewModel.cs" />
     <Compile Include="ViewModel\Interfaces\iTreeViewModel.cs" />
-    <Compile Include="ViewModel\TreeViewModelComposite.cs" />
+    <Compile Include="ViewModel\TreeCompositeViewModel.cs" />
     <Compile Include="ViewModel\TreeViewModel.cs" />
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

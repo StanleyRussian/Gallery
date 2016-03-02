@@ -7,24 +7,40 @@ using System.Threading.Tasks;
 
 namespace Gallery
 {
-    abstract class TreeViewModelItem
+    abstract class TreeItemViewModel
     {
         readonly TreeBranchViewModel Parent;
+        readonly TreeItem ModelItem;
 
-        protected TreeViewModelItem(TreeBranchViewModel parent)
+        protected TreeItemViewModel(TreeItem item, TreeBranchViewModel parent)
         {
             Parent = parent;
+            ModelItem = item;
+        }
+
+        public string Fullpath
+        {
+            get { return ModelItem.Fullpath; }
+        }
+
+        public string Name
+        {
+            get { return ModelItem.Name; }
         }
     }
 
-    class TreeBranchViewModel : TreeViewModelItem
+    class TreeBranchViewModel : TreeItemViewModel
     {
-        readonly ObservableCollection<TreeViewModelItem> Children;
 
         readonly TreeBranch ModelBranch;
 
-        bool _isExpanded;
-        bool _isSelected;
+        public bool _isExpanded;
+        public bool _isSelected;
+
+        public ObservableCollection<TreeItemViewModel> Children
+        {
+            get; private set;
+        }
 
         public TreeBranchViewModel(TreeBranch branch)
             : this(branch, null)
@@ -32,11 +48,11 @@ namespace Gallery
         }
 
         private TreeBranchViewModel(TreeBranch branch, TreeBranchViewModel parent)
-            : base(parent)
+            : base(branch, parent)
         {
             ModelBranch = branch;
 
-            Children = new ObservableCollection<TreeViewModelItem>();
+            Children = new ObservableCollection<TreeItemViewModel>();
             foreach (var child in ModelBranch.Children)
             {
                 if (child is TreeBranch)
@@ -45,10 +61,9 @@ namespace Gallery
                     Children.Add(new TreeLeafViewModel(child as TreeLeaf));
             }
         }
-
     }
 
-    class TreeLeafViewModel : TreeViewModelItem
+    class TreeLeafViewModel : TreeItemViewModel
     {
         readonly TreeLeaf ModelLeaf;
 
@@ -60,7 +75,7 @@ namespace Gallery
         }
 
         private TreeLeafViewModel(TreeLeaf leaf, TreeBranchViewModel parent)
-            : base(parent)
+            : base(leaf, parent)
         {
             ModelLeaf = leaf;
         }

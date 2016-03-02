@@ -73,7 +73,7 @@ namespace Gallery
 
         // This method adds all images to expanded node
         // And since node already contains it's subfolders, id adds subfolders to subfolders
-        public void Expand(string name)
+        public void ExpandNode(string name)
         {
             TreeBranch ExpandedNode = null;
             foreach (var drive in Children)

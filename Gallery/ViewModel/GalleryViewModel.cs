@@ -12,15 +12,15 @@ namespace Gallery
     {
         iGallery GalleryModel;
 
-        public ObservableCollection<ImageViewModel> ImageList
+        public ObservableCollection<ImageViewModel> Images
         { get; private set; }
 
         public GalleryViewModel(iGallery gallery)
         {
             GalleryModel = gallery;
-            ImageList = new ObservableCollection<ImageViewModel>();
+            Images = new ObservableCollection<ImageViewModel>();
             foreach (var image in GalleryModel.Images)
-                ImageList.Add(new ImageViewModel(image));
+                Images.Add(new ImageViewModel(image));
         }
 
         public void Add(string path)

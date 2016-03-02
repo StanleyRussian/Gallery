@@ -60,7 +60,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" TextWrapping="Wrap" Text="Library"/>
                     <ScrollViewer Grid.Row="1">
-                        <ListView x:Name="listviewGallery" ItemsSource="{Binding ImageList}">
+                        <ListView x:Name="listviewGallery" ItemsSource="{Binding Images}">
                             <ListView.ItemsPanel>
                                 <ItemsPanelTemplate>
                                     <WrapPanel 
