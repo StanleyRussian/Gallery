@@ -32,6 +32,8 @@ namespace Gallery
             treeviewFolderBrowser.DataContext = TreeVM;
         }
 
+        #region UI Behaviour
+
         private GridLength expandedHeight = new GridLength(0.5, GridUnitType.Star);
 
         private void Expander_Expanded(object sender, RoutedEventArgs e)
@@ -46,6 +48,8 @@ namespace Gallery
             expanderRow.Height = GridLength.Auto;
             expander.Visibility = Visibility.Collapsed;
         }
+
+        #endregion
 
         private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
         {

@@ -34,10 +34,23 @@
                     </Grid.ColumnDefinitions>
 
                     <ScrollViewer>
-                        <TreeView x:Name="treeviewFolderBrowser" ItemsSource="{Binding Branches}" MinWidth="100">
+                        <TreeView x:Name="treeviewFolderBrowser" ItemsSource="{Binding Children}">
+                            <TreeView.ItemContainerStyle>
+                                <Style TargetType="{x:Type TreeViewItem}">
+                                    <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
+                                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                                    <Setter Property="FontWeight" Value="Normal" />
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TreeView.ItemContainerStyle>
+
                             <TreeView.ItemTemplate>
-                                <HierarchicalDataTemplate ItemsSource="{Binding Branches}">
-                                    <TreeViewItem Header="{Binding Name}" Expanded="TreeViewItem_Expanded"/>
+                                <HierarchicalDataTemplate ItemsSource="{Binding Children}">
+                                    <TextBlock Text="{Binding Name}" />
                                 </HierarchicalDataTemplate>
                             </TreeView.ItemTemplate>
                         </TreeView>

@@ -1,41 +1,73 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Gallery
 {
-    abstract class TreeItemViewModel
+    abstract class TreeItemViewModel: INotifyPropertyChanged
     {
-        readonly TreeBranchViewModel Parent;
-        readonly TreeItem ModelItem;
+        public TreeBranchViewModel Parent
+        { get; private set; }
+
+        readonly TreeItem _modelItem;
 
         protected TreeItemViewModel(TreeItem item, TreeBranchViewModel parent)
         {
             Parent = parent;
-            ModelItem = item;
+            _modelItem = item;
         }
+
+        #region Model Properties
 
         public string Fullpath
         {
-            get { return ModelItem.Fullpath; }
+            get { return _modelItem.Fullpath; }
         }
 
         public string Name
         {
-            get { return ModelItem.Name; }
+            get { return _modelItem.Name; }
         }
+
+        #endregion
+
+        #region UI Properties and INotifyPropertyChanged implementation
+
+        private bool _isSelected = false;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public bool IsSelected
+        {
+            get { return _isSelected; }
+            set
+            {
+                if (value != _isSelected)
+                {
+                    _isSelected = value;
+                    OnPropertyChanged("IsSelected");
+                }
+            }
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
     }
 
     class TreeBranchViewModel : TreeItemViewModel
     {
 
-        readonly TreeBranch ModelBranch;
-
-        public bool _isExpanded;
-        public bool _isSelected;
+        readonly TreeBranch _modelBranch;
 
         public ObservableCollection<TreeItemViewModel> Children
         {
@@ -50,10 +82,10 @@ namespace Gallery
         private TreeBranchViewModel(TreeBranch branch, TreeBranchViewModel parent)
             : base(branch, parent)
         {
-            ModelBranch = branch;
+            _modelBranch = branch;
 
             Children = new ObservableCollection<TreeItemViewModel>();
-            foreach (var child in ModelBranch.Children)
+            foreach (var child in _modelBranch.Children)
             {
                 if (child is TreeBranch)
                     Children.Add(new TreeBranchViewModel(child as TreeBranch));
@@ -61,13 +93,33 @@ namespace Gallery
                     Children.Add(new TreeLeafViewModel(child as TreeLeaf));
             }
         }
+
+        #region UI Properties
+
+        private bool _isExpanded;
+        public bool IsExpanded
+        {
+            get { return _isExpanded; }
+            set
+            {
+                if (value != _isExpanded)
+                {
+                    _isExpanded = value;
+                    OnPropertyChanged("IsExpanded");
+                }
+
+                // Expand all the way up to the root.
+                if (_isExpanded && Parent != null)
+                    Parent.IsExpanded = true;
+            }
+        }
+
+        #endregion
     }
 
     class TreeLeafViewModel : TreeItemViewModel
     {
-        readonly TreeLeaf ModelLeaf;
-
-        bool _isSelected;
+        readonly TreeLeaf _modelLeaf;
 
         public TreeLeafViewModel(TreeLeaf branch)
             : this(branch, null)
@@ -77,7 +129,7 @@ namespace Gallery
         private TreeLeafViewModel(TreeLeaf leaf, TreeBranchViewModel parent)
             : base(leaf, parent)
         {
-            ModelLeaf = leaf;
+            _modelLeaf = leaf;
         }
 
     }
