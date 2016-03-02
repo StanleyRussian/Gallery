@@ -4,7 +4,7 @@ namespace Gallery
 {
     interface iGalleryViewModel
     {
-        ObservableCollection<iGalleryImage> ImageList { get; }
+        ObservableCollection<ImageViewModel> ImageList { get; }
 
         void Add(string path);
     }

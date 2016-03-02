@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="350" Width="525">
     <Window.Resources>
-        <DataTemplate DataType="{x:Type local:LocalImage}">
+        <DataTemplate DataType="{x:Type local:ImageViewModel}">
             <Border Margin="3">
                 <Image Source="{Binding Path}" MaxHeight="100" MaxWidth="150"/>
             </Border>

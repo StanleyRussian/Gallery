@@ -13,15 +13,14 @@ namespace Gallery
     // ViewModel class for iTree implementation
     class TreeViewModel : iTreeViewModel, INotifyPropertyChanged
     {
-        iTree _tree;
+        iTree ModelTree;
 
         public TreeViewModel(iTree tree)
         {
-            Children = new ObservableCollection<TreeBranchViewModel>(
-                new TreeBranchViewModel[]
-                {
-                    tree.Children
-                });
+            ModelTree = tree;
+            Children = new ObservableCollection<TreeBranchViewModel>();
+            foreach (var child in ModelTree.Children)
+                Children.Add(new TreeBranchViewModel(child));
         }
 
         public ObservableCollection<TreeBranchViewModel> Children
@@ -36,7 +35,7 @@ namespace Gallery
 
         public void ExpandNode(string name)
         {
-            _tree.Expand(name);
+            ModelTree.Expand(name);
             OnPropertyChanged("Branches");
         }
     }

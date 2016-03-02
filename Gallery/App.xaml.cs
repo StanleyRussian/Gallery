@@ -22,8 +22,6 @@ namespace Gallery
             TreeViewModel TreeVM = new TreeViewModel(TreeM);
 
             MainWindow MainW = new MainWindow(GalleryVM, TreeVM);
-            //MainW.listviewGallery.DataContext = GalleryVM;
-            //MainW.treeviewFolderBrowser.DataContext = TreeVM;
             MainW.Show();
         }
     }

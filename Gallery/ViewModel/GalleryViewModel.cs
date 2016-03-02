@@ -10,14 +10,17 @@ namespace Gallery
     // ViewModel class for iGallery implementation
     class GalleryViewModel : iGalleryViewModel
     {
-        iGallery _gallery;
+        iGallery GalleryModel;
 
-        public ObservableCollection<iGalleryImage> ImageList
+        public ObservableCollection<ImageViewModel> ImageList
         { get; private set; }
 
         public GalleryViewModel(iGallery gallery)
         {
-            ImageList = new ObservableCollection<iGalleryImage>();
+            GalleryModel = gallery;
+            ImageList = new ObservableCollection<ImageViewModel>();
+            foreach (var image in GalleryModel.Images)
+                ImageList.Add(new ImageViewModel(image));
         }
 
         public void Add(string path)

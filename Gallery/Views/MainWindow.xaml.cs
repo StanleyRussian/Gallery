@@ -20,15 +20,15 @@ namespace Gallery
     /// </summary>
     public partial class MainWindow : Window
     {
-        private iGalleryViewModel _gallery;
-        private iTreeViewModel _tree;
+        private iGalleryViewModel GalleryVM;
+        private iTreeViewModel TreeVM;
 
-        internal MainWindow(iGalleryViewModel GalleryVM, iTreeViewModel TreeVM)
+        internal MainWindow(iGalleryViewModel gallery, iTreeViewModel tree)
         {
             InitializeComponent();
-            _gallery = GalleryVM;
+            GalleryVM = gallery;
             listviewGallery.DataContext = GalleryVM;
-            _tree = TreeVM;
+            TreeVM = tree;
             treeviewFolderBrowser.DataContext = TreeVM;
         }
 
@@ -50,7 +50,7 @@ namespace Gallery
         private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
         {
             TreeViewItem ExpandedNode = e.OriginalSource as TreeViewItem;
-            _tree.ExpandNode(ExpandedNode.Name);
+            TreeVM.ExpandNode(ExpandedNode.Name);
         }
     }
 }
