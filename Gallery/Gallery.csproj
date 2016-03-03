@@ -75,10 +75,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\Expander.cs" />
+    <Compile Include="Model\Interfaces\iGalleryImage.cs" />
     <Compile Include="Model\LocalTree.cs" />
     <Compile Include="Model\LocalGallery.cs" />
     <Compile Include="Model\Interfaces\iGallery.cs" />
-    <Compile Include="Model\Interfaces\iGalleryImage.cs" />
     <Compile Include="Model\Interfaces\iTree.cs" />
     <Compile Include="Model\LocalImage.cs" />
     <Compile Include="Model\TreeComposite.cs" />

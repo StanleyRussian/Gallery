@@ -35,6 +35,7 @@ namespace Gallery
                 TreeBranch Drive = new TreeBranch(d, d);
                 Children.Add(Drive);
                 AddFoldersTo(Drive);
+                AddImagesTo(Drive);
             }
 
             Expander ExpanderInstance = Expander.GetInstance();
@@ -52,31 +53,34 @@ namespace Gallery
             try
             {
                 string[] folders = Directory.GetDirectories(root.Fullpath);
-                Parallel.ForEach(folders, (f) =>
+                foreach (var f in folders)
                 {
-                    root.Children.Add(new TreeBranch(Path.GetFileName(f), f));
-                });
+                    if (root.Children.Find(x => x.Fullpath == f) == null)
+                        root.Children.Add(new TreeBranch(Path.GetFileName(f), f));
+                }
             }
             catch (UnauthorizedAccessException) { }
-            //foreach (var f in folders)
-            //    root.Children.Add(new TreeBranch(Path.GetFileName(f), f));
-            //root.Children.Sort();
         }
 
         // Method finding all images in corresponing folder of given TreeBranch and adding them as new TreeLeaf
         private void AddImagesTo(TreeBranch root)
         {
-            string[] files = Directory.GetFiles(root.Fullpath);
-            foreach (var f in files)
+            try
             {
-                if (Path.GetExtension(f) != ".png" ||
-                    Path.GetExtension(f) != ".gif" ||
-                    Path.GetExtension(f) != ".jpg" ||
-                    Path.GetExtension(f) != ".bmp" ||
-                    Path.GetExtension(f) != ".jpeg")
-                    continue;
-                TreeLeaf NewLeaf = new TreeLeaf(Path.GetFileName(f), f);
+                string[] files = Directory.GetFiles(root.Fullpath);
+                foreach (var f in files)
+                {
+                    if (Path.GetExtension(f) != ".png" &&
+                        Path.GetExtension(f) != ".gif" &&
+                        Path.GetExtension(f) != ".jpg" &&
+                        Path.GetExtension(f) != ".bmp" &&
+                        Path.GetExtension(f) != ".jpeg")
+                        continue;
+                    if (root.Children.Find(x => x.Fullpath == f) == null)
+                        root.Children.Add(new TreeLeaf(Path.GetFileName(f), f));
+                }
             }
+            catch (UnauthorizedAccessException) { }
         }
 
         // This method adds all images to expanded node
@@ -96,12 +100,16 @@ namespace Gallery
                 AddFoldersTo(child);
         }
 
+        // This method adds all images to expanded node
+        // And since node already contains it's subfolders, id adds subfolders to subfolders
         public void ExpandNode(TreeBranch argBranch)
         {
-            AddImagesTo(argBranch);
-            foreach (TreeBranch child in argBranch.Children)
-                AddFoldersTo(child);
-
+            foreach (TreeItem child in argBranch.Children)
+                if (child is TreeBranch)
+                {
+                    AddImagesTo(child as TreeBranch);
+                    AddFoldersTo(child as TreeBranch);
+                }
         }
     }
 }

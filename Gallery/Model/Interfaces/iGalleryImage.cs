@@ -11,7 +11,7 @@ namespace Gallery
     interface iGalleryImage
     {
         string Path { get; }
-        int Size { get; }
+        long Size { get; }
         int Mark { get; }
         string Contributor { get; }
         DateTime Added { get; }

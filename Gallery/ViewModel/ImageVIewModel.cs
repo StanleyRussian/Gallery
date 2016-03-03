@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gallery
 {
-    class ImageViewModel: iGalleryImage, INotifyPropertyChanged
+    class ImageViewModel: INotifyPropertyChanged, iGalleryImage
     {
         readonly iGalleryImage _modelImage;
 
@@ -38,7 +38,7 @@ namespace Gallery
             get { return _modelImage.Path; }
         }
 
-        public int Size
+        public long Size
         {
             get { return _modelImage.Size; }
         }
