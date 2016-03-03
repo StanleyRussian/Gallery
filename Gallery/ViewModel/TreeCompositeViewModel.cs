@@ -37,18 +37,18 @@ namespace Gallery
 
         #region UI Properties and INotifyPropertyChanged implementation
 
-        private bool _isSelected = false;
+        private bool isSelected = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
         public bool IsSelected
         {
-            get { return _isSelected; }
+            get { return isSelected; }
             set
             {
-                if (value != _isSelected)
+                if (value != isSelected)
                 {
-                    _isSelected = value;
+                    isSelected = value;
                     OnPropertyChanged("IsSelected");
                 }
             }
@@ -96,21 +96,35 @@ namespace Gallery
 
         #region UI Properties
 
-        private bool _isExpanded;
+        private bool isExpanded;
         public bool IsExpanded
         {
-            get { return _isExpanded; }
+            get { return isExpanded; }
             set
             {
-                if (value != _isExpanded)
+                if (value != isExpanded)
                 {
-                    _isExpanded = value;
+                    isExpanded = value;
                     OnPropertyChanged("IsExpanded");
                 }
 
                 // Expand all the way up to the root.
-                if (_isExpanded && Parent != null)
+                if (isExpanded && Parent != null)
                     Parent.IsExpanded = true;
+
+                // Refresh expanding node childen
+                if (isExpanded)
+                {
+                    _modelBranch.Expand();
+                    Children.Clear();
+                    foreach (var child in _modelBranch.Children)
+                    {
+                        if (child is TreeBranch)
+                            Children.Add(new TreeBranchViewModel(child as TreeBranch));
+                        else if (child is TreeLeaf)
+                            Children.Add(new TreeLeafViewModel(child as TreeLeaf));
+                    }
+                }
             }
         }
 

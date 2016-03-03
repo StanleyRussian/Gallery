@@ -36,6 +36,14 @@ namespace Gallery
                 Children.Add(Drive);
                 AddFoldersTo(Drive);
             }
+
+            Expander ExpanderInstance = Expander.GetInstance();
+            ExpanderInstance.NodeExpanded += ExpanderInstance_NodeExpanded;
+        }
+
+        private void ExpanderInstance_NodeExpanded(TreeBranch argBranch)
+        {
+            ExpandNode(argBranch);
         }
 
         // Method finding all subfolders in corresponing folder of given TreeBranch and adding them as new TreeBranch
@@ -86,6 +94,14 @@ namespace Gallery
             AddImagesTo(ExpandedNode);
             foreach (TreeBranch child in ExpandedNode.Children)
                 AddFoldersTo(child);
+        }
+
+        public void ExpandNode(TreeBranch argBranch)
+        {
+            AddImagesTo(argBranch);
+            foreach (TreeBranch child in argBranch.Children)
+                AddFoldersTo(child);
+
         }
     }
 }

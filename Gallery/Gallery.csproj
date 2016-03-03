@@ -74,6 +74,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Model\Expander.cs" />
     <Compile Include="Model\LocalTree.cs" />
     <Compile Include="Model\LocalGallery.cs" />
     <Compile Include="Model\Interfaces\iGallery.cs" />

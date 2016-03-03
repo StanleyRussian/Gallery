@@ -53,8 +53,7 @@ namespace Gallery
 
         private void TreeViewItem_Expanded(object sender, RoutedEventArgs e)
         {
-            TreeViewItem ExpandedNode = e.OriginalSource as TreeViewItem;
-            TreeVM.ExpandNode(ExpandedNode.Name);
+            //TreeViewItem ExpandedNode = e.OriginalSource as TreeViewItem;
         }
     }
 }

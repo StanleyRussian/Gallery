@@ -34,7 +34,7 @@
                     </Grid.ColumnDefinitions>
 
                     <ScrollViewer>
-                        <TreeView x:Name="treeviewFolderBrowser" ItemsSource="{Binding Children}">
+                        <TreeView x:Name="treeviewFolderBrowser" ItemsSource="{Binding Children}" TreeViewItem.Expanded="TreeViewItem_Expanded">
                             <TreeView.ItemContainerStyle>
                                 <Style TargetType="{x:Type TreeViewItem}">
                                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />

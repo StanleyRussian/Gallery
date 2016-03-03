@@ -36,7 +36,6 @@ namespace Gallery
         public void ExpandNode(string name)
         {
             _modelTree.ExpandNode(name);
-            OnPropertyChanged("Branches");
         }
     }
 }

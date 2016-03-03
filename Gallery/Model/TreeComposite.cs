@@ -51,6 +51,14 @@ namespace Gallery
 
             return found;
         }
+
+        // This method is called from corresponding TreeBranchViewModel object when user expands a node in tree view
+        //
+        public void Expand()
+        {
+            Expander ExpanderInstance = Expander.GetInstance();
+            ExpanderInstance.Expand(this);
+        }
     }
 
     // Closed "Leaf" item
