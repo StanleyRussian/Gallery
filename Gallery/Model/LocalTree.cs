@@ -32,14 +32,11 @@ namespace Gallery
             string[] drives = Directory.GetLogicalDrives();
             foreach (var d in drives)
             {
-                TreeBranch Drive = new TreeBranch(d, d);
+                TreeBranch Drive = new TreeBranch(d, d, this);
                 Children.Add(Drive);
                 AddFoldersTo(Drive);
                 AddImagesTo(Drive);
             }
-
-            Expander ExpanderInstance = Expander.GetInstance();
-            ExpanderInstance.NodeExpanded += ExpanderInstance_NodeExpanded;
         }
 
         private void ExpanderInstance_NodeExpanded(TreeBranch argBranch)
@@ -56,7 +53,7 @@ namespace Gallery
                 foreach (var f in folders)
                 {
                     if (root.Children.Find(x => x.Fullpath == f) == null)
-                        root.Children.Add(new TreeBranch(Path.GetFileName(f), f));
+                        root.Children.Add(new TreeBranch(Path.GetFileName(f), f, this));
                 }
             }
             catch (UnauthorizedAccessException) { }
@@ -77,31 +74,31 @@ namespace Gallery
                         Path.GetExtension(f) != ".jpeg")
                         continue;
                     if (root.Children.Find(x => x.Fullpath == f) == null)
-                        root.Children.Add(new TreeLeaf(Path.GetFileName(f), f));
+                        root.Children.Add(new TreeLeaf(Path.GetFileName(f), f, this));
                 }
             }
             catch (UnauthorizedAccessException) { }
         }
 
         // This method adds all images to expanded node
-        // And since node already contains it's subfolders, id adds subfolders to subfolders
-        public void ExpandNode(string name)
-        {
-            TreeBranch ExpandedNode = null;
-            foreach (var drive in Children)
-            {
-                ExpandedNode = drive.Find(name, true) as TreeBranch;
-                if (ExpandedNode != null)
-                    break;
-            }
+        // And since node already contains it's subfolders, it adds subfolders to subfolders
+        //public void ExpandNode(string name)
+        //{
+        //    TreeBranch ExpandedNode = null;
+        //    foreach (var drive in Children)
+        //    {
+        //        ExpandedNode = drive.Find(name, true) as TreeBranch;
+        //        if (ExpandedNode != null)
+        //            break;
+        //    }
 
-            AddImagesTo(ExpandedNode);
-            foreach (TreeBranch child in ExpandedNode.Children)
-                AddFoldersTo(child);
-        }
+        //    AddImagesTo(ExpandedNode);
+        //    foreach (TreeBranch child in ExpandedNode.Children)
+        //        AddFoldersTo(child);
+        //}
 
         // This method adds all images to expanded node
-        // And since node already contains it's subfolders, id adds subfolders to subfolders
+        // And since node already contains it's subfolders, it adds subfolders to subfolders
         public void ExpandNode(TreeBranch argBranch)
         {
             foreach (TreeItem child in argBranch.Children)

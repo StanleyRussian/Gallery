@@ -26,8 +26,10 @@ namespace Gallery
         internal MainWindow(iGalleryViewModel gallery, iTreeViewModel tree)
         {
             InitializeComponent();
+
             GalleryVM = gallery;
             listviewGallery.DataContext = GalleryVM;
+            controlImage.DataContext = GalleryVM;
             TreeVM = tree;
             treeviewFolderBrowser.DataContext = TreeVM;
         }

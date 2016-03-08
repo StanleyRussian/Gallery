@@ -10,16 +10,20 @@ namespace Gallery
     // Base abstract class for all elements in tree
     abstract class TreeItem
     {
+        public iTree Parent
+        { get; private set; }
+
         public string Name
         { get; private set; }
 
         public string Fullpath
         { get; private set; }
 
-        public TreeItem(string name, string path)
+        public TreeItem(string name, string path, iTree parent)
         {
             Name = name;
             Fullpath = path;
+            Parent = parent;
         }
     }
 
@@ -29,8 +33,8 @@ namespace Gallery
         public List<TreeItem> Children
         { get; private set; }
 
-        public TreeBranch(string name, string path)
-            :base (name, path)
+        public TreeBranch(string name, string path, iTree parent)
+            :base (name, path, parent)
         {
             Children = new List<TreeItem>();
         }
@@ -53,19 +57,17 @@ namespace Gallery
         }
 
         // This method is called from corresponding TreeBranchViewModel object when user expands a node in tree view
-        //
         public void Expand()
         {
-            Expander ExpanderInstance = Expander.GetInstance();
-            ExpanderInstance.Expand(this);
+            Parent.ExpandNode(this);
         }
     }
 
     // Closed "Leaf" item
     class TreeLeaf: TreeItem
     {
-        public TreeLeaf(string name, string path)
-            :base (name, path)
+        public TreeLeaf(string name, string path, iTree parent)
+            :base (name, path, parent)
         { }
     }
 }

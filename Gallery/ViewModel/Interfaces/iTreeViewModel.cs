@@ -7,7 +7,5 @@ namespace Gallery
     {
         ObservableCollection<TreeBranchViewModel> Children
         { get; }
-
-        void ExpandNode(string name);
     }
 }

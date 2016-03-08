@@ -12,6 +12,6 @@ namespace Gallery
     {
         List<TreeBranch> Children { get; }
 
-        void ExpandNode(string name);
+        void ExpandNode(TreeBranch argBranch);
     }
 }

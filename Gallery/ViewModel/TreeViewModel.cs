@@ -32,10 +32,5 @@ namespace Gallery
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(prop));
         }
-
-        public void ExpandNode(string name)
-        {
-            _modelTree.ExpandNode(name);
-        }
     }
 }
