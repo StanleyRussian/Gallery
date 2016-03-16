@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gallery
 {
     // Interface for an object representing single gallery image
     // Gallery object adresses this interface
-    interface iGalleryImage
+    interface iImageModel
     {
-        string Path { get; }
+        string Fullpath { get; }
         long Size { get; }
-        int Mark { get; }
+        int Rating { get; set; }
         string Contributor { get; }
         DateTime Added { get; }
     }

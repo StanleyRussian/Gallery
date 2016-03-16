@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Gallery
 {
     // Base abstract class for all elements in tree
     abstract class TreeItem
     {
-        public iTree Parent
-        { get; private set; }
+        protected readonly iTreeModel _governor;
 
         public string Name
         { get; private set; }
@@ -19,11 +13,11 @@ namespace Gallery
         public string Fullpath
         { get; private set; }
 
-        public TreeItem(string name, string path, iTree parent)
+        public TreeItem(string name, string path, iTreeModel governor)
         {
             Name = name;
             Fullpath = path;
-            Parent = parent;
+            _governor = governor;
         }
     }
 
@@ -33,7 +27,7 @@ namespace Gallery
         public List<TreeItem> Children
         { get; private set; }
 
-        public TreeBranch(string name, string path, iTree parent)
+        public TreeBranch(string name, string path, iTreeModel parent)
             :base (name, path, parent)
         {
             Children = new List<TreeItem>();
@@ -59,14 +53,14 @@ namespace Gallery
         // This method is called from corresponding TreeBranchViewModel object when user expands a node in tree view
         public void Expand()
         {
-            Parent.ExpandNode(this);
+            _governor.ExpandNode(this);
         }
     }
 
     // Closed "Leaf" item
     class TreeLeaf: TreeItem
     {
-        public TreeLeaf(string name, string path, iTree parent)
+        public TreeLeaf(string name, string path, iTreeModel parent)
             :base (name, path, parent)
         { }
     }

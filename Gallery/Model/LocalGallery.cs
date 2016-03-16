@@ -1,24 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using System.Threading.Tasks;
+using System.Xml;
 
 namespace Gallery
 {
     // Class for an object which actually store list of images in List of iGalleryImage objects
-    class LocalGallery : iGallery
+    class LocalGallery : iGalleryModel
     {
-        public List<iGalleryImage> Images
+        public List<iImageModel> Images
         { get; set; }
 
         public LocalGallery()
         {
-            Images = new List<iGalleryImage>();
-            Images.Add(new LocalImage(@"D:\Customization\Walls\night_sky_snow-wallpaper-1680x1050.jpg"));
-            Images.Add(new LocalImage(@"D:\Customization\Walls\Geometric-Wallpaper-HD-27.jpg"));
-            Images.Add(new LocalImage(@"D:\Customization\Walls\2560x1440_SoT.jpg"));
+            Images = new List<iImageModel>();
+            if (File.Exists("../../data"))
+                LoadGallery();
+        }
+
+        public void Add(string argFullpath)
+        {
+            Images.Add(new LocalImage(argFullpath));
+        }
+
+        public void SaveGallery()
+        {
+            FileStream stream = new FileStream("../../data", FileMode.Create);
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(stream, Images);
+            stream.Close();
+        }
+
+        private void LoadGallery()
+        {
+            FileStream stream = new FileStream("../../data", FileMode.Open);
+            if (stream.Length == 0)
+                return;
+            BinaryFormatter formatter = new BinaryFormatter();
+            Images = (List<iImageModel>)formatter.Deserialize(stream);
+            stream.Close();
         }
     }
 }

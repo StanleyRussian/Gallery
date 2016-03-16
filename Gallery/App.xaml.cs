@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
 
 namespace Gallery
 {
@@ -15,11 +9,11 @@ namespace Gallery
     {
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            iGallery GalleryM = new LocalGallery();
-            iTree TreeM = new LocalTree();
+            iGalleryModel GalleryM = new LocalGallery();
+            iTreeModel TreeM = new LocalTree();
 
-            GalleryViewModel GalleryVM = new GalleryViewModel(GalleryM);
-            TreeViewModel TreeVM = new TreeViewModel(TreeM);
+            iGalleryViewModel GalleryVM = new GalleryViewModel(GalleryM);
+            iTreeViewModel TreeVM = new TreeViewModel(TreeM);
 
             MainWindow MainW = new MainWindow(GalleryVM, TreeVM);
             MainW.Show();

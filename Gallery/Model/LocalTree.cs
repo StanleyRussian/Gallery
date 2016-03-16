@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gallery
 {
@@ -18,7 +15,7 @@ namespace Gallery
 
     // Implementation of iTree for local images
     // Class representing entire tree with methods to manage it
-    class LocalTree : iTree
+    class LocalTree : iTreeModel
     {
         public List<TreeBranch> Children
         { get; private set; }

@@ -1,24 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gallery
 {
-    abstract class TreeItemViewModel: INotifyPropertyChanged
+    abstract class TreeItemViewModel : INotifyPropertyChanged
     {
+        protected iTreeViewModel _governor;
         public TreeBranchViewModel Parent
         { get; private set; }
 
         readonly TreeItem _modelItem;
 
-        protected TreeItemViewModel(TreeItem item, TreeBranchViewModel parent)
+        protected TreeItemViewModel(TreeItem item, TreeBranchViewModel parent, iTreeViewModel governor)
         {
             Parent = parent;
             _modelItem = item;
+            _governor = governor;
         }
 
         #region Model Properties
@@ -37,7 +34,7 @@ namespace Gallery
 
         #region UI Properties and INotifyPropertyChanged implementation
 
-        private bool isSelected = false;
+        protected bool isSelected = false;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -74,13 +71,13 @@ namespace Gallery
             get; private set;
         }
 
-        public TreeBranchViewModel(TreeBranch branch)
-            : this(branch, null)
+        public TreeBranchViewModel(TreeBranch branch, iTreeViewModel governor)
+            : this(branch, null, governor)
         {
         }
 
-        private TreeBranchViewModel(TreeBranch branch, TreeBranchViewModel parent)
-            : base(branch, parent)
+        private TreeBranchViewModel(TreeBranch branch, TreeBranchViewModel parent, iTreeViewModel governor)
+            : base(branch, parent, governor)
         {
             _modelBranch = branch;
 
@@ -88,9 +85,9 @@ namespace Gallery
             foreach (var child in _modelBranch.Children)
             {
                 if (child is TreeBranch)
-                    Children.Add(new TreeBranchViewModel(child as TreeBranch));
+                    Children.Add(new TreeBranchViewModel(child as TreeBranch,_governor));
                 else if (child is TreeLeaf)
-                    Children.Add(new TreeLeafViewModel(child as TreeLeaf));
+                    Children.Add(new TreeLeafViewModel(child as TreeLeaf, _governor));
             }
         }
 
@@ -120,9 +117,9 @@ namespace Gallery
                     foreach (var child in _modelBranch.Children)
                     {
                         if (child is TreeBranch)
-                            Children.Add(new TreeBranchViewModel(child as TreeBranch));
+                            Children.Add(new TreeBranchViewModel(child as TreeBranch, _governor));
                         else if (child is TreeLeaf)
-                            Children.Add(new TreeLeafViewModel(child as TreeLeaf));
+                            Children.Add(new TreeLeafViewModel(child as TreeLeaf, _governor));
                     }
                 }
             }
@@ -135,16 +132,29 @@ namespace Gallery
     {
         readonly TreeLeaf _modelLeaf;
 
-        public TreeLeafViewModel(TreeLeaf branch)
-            : this(branch, null)
+        public TreeLeafViewModel(TreeLeaf branch, iTreeViewModel governor)
+            : this(branch, null, governor)
         {
         }
 
-        private TreeLeafViewModel(TreeLeaf leaf, TreeBranchViewModel parent)
-            : base(leaf, parent)
+        private TreeLeafViewModel(TreeLeaf leaf, TreeBranchViewModel parent, iTreeViewModel governor)
+            : base(leaf, parent, governor)
         {
             _modelLeaf = leaf;
         }
 
+        public new bool IsSelected
+        {
+            get { return isSelected; }
+            set
+            {
+                if (value != isSelected)
+                {
+                    isSelected = value;
+                    OnPropertyChanged("IsSelected");
+                    _governor.CurrentImageFullpath = Fullpath;
+                }
+            }
+        }
     }
 }

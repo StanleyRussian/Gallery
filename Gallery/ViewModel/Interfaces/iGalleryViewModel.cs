@@ -1,4 +1,6 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Input;
 
 namespace Gallery
 {
@@ -6,6 +8,9 @@ namespace Gallery
     {
         ObservableCollection<ImageViewModel> Images { get; }
 
-        void Add(string path);
+        ICommand cmdAddToGallery
+        { get; }
+
+        void OnClose(object sender, CancelEventArgs e);
     }
 }

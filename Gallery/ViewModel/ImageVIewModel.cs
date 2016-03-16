@@ -1,17 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace Gallery
 {
-    class ImageViewModel: INotifyPropertyChanged, iGalleryImage
+    class ImageViewModel: INotifyPropertyChanged, iImageModel
     {
-        readonly iGalleryImage _modelImage;
+        readonly iImageModel _modelImage;
 
-        public ImageViewModel(iGalleryImage image)
+        public ImageViewModel(iImageModel image)
         {
             _modelImage = image;
         }
@@ -28,19 +25,30 @@ namespace Gallery
             get { return _modelImage.Contributor; }
         }
 
-        public int Mark
+        public int Rating
         {
-            get { return _modelImage.Mark; }
+            get { return _modelImage.Rating; }
+            set { _modelImage.Rating = value; }
         }
 
-        public string Path
+        public string Fullpath
         {
-            get { return _modelImage.Path; }
+            get { return _modelImage.Fullpath; }
+        }
+
+        public string Name
+        {
+            get { return Path.GetFileName(_modelImage.Fullpath); }
         }
 
         public long Size
         {
             get { return _modelImage.Size; }
+        }
+
+        public long SizeKb
+        {
+            get { return _modelImage.Size / 1024; }
         }
 
         #endregion

@@ -1,30 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Gallery
 {
     // ViewModel class for iTree implementation
     class TreeViewModel : iTreeViewModel, INotifyPropertyChanged
     {
-        readonly iTree _modelTree;
+        readonly iTreeModel _modelTree;
 
-        public TreeViewModel(iTree tree)
+        public TreeViewModel(iTreeModel tree)
         {
             _modelTree = tree;
             Children = new ObservableCollection<TreeBranchViewModel>();
             foreach (var child in _modelTree.Children)
-                Children.Add(new TreeBranchViewModel(child));
+                Children.Add(new TreeBranchViewModel(child, this));
         }
 
         public ObservableCollection<TreeBranchViewModel> Children
         { get; private set; }
+
+        private string currentImageFullpath;
+        public string CurrentImageFullpath
+        {
+            get { return currentImageFullpath; }
+            set
+            {
+                currentImageFullpath = value;
+                OnPropertyChanged("CurrentImageFullpath");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         public void OnPropertyChanged([CallerMemberName]string prop = "")

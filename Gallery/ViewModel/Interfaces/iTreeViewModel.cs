@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 
 namespace Gallery
 {
@@ -7,5 +6,7 @@ namespace Gallery
     {
         ObservableCollection<TreeBranchViewModel> Children
         { get; }
+        string CurrentImageFullpath
+        { get; set; }
     }
 }

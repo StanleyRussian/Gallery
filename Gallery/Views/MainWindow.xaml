@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Gallery"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="700">
+        Title="MainWindow" Height="700" Width="1000">
     <Window.Resources>
     </Window.Resources>
     
@@ -31,7 +31,6 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="auto"/>
-                        <RowDefinition Height="auto"/>
                     </Grid.RowDefinitions>
 
                     <ScrollViewer>
@@ -39,8 +38,6 @@
                             <TreeView.ItemContainerStyle>
                                 <Style TargetType="{x:Type TreeViewItem}">
                                     <Setter Property="IsExpanded" Value="{Binding IsExpanded, Mode=TwoWay}" />
-                                    <!-- I dont think this is needed -->
-                                    <!--
                                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
                                     <Setter Property="FontWeight" Value="Normal" />
                                     <Style.Triggers>
@@ -48,19 +45,19 @@
                                             <Setter Property="FontWeight" Value="Bold" />
                                         </Trigger>
                                     </Style.Triggers>
-                                    -->
+                                    
                                 </Style>
                             </TreeView.ItemContainerStyle>
 
-                            <!-- If all items displayed with same layout delete resources section and uncomment these:
+                             <!--If all items displayed with same layout comment resources section and uncomment these:-->
                                   <TreeView.ItemTemplate>
                                     <HierarchicalDataTemplate ItemsSource="{Binding Children}">
                                       <TextBlock Text="{Binding Name}" />
                                     </HierarchicalDataTemplate>
                                   </TreeView.ItemTemplate>
-                            -->
                             
-                            <TreeView.Resources>
+                            
+                            <!--<TreeView.Resources>
                                 <HierarchicalDataTemplate 
                                     ItemsSource="{Binding Children}"
                                     DataType="{x:Type local:TreeBranchViewModel}">
@@ -73,22 +70,26 @@
                                         <TextBlock Text="{Binding Name}"/>
                                 </HierarchicalDataTemplate>
 
-                            </TreeView.Resources>
+                            </TreeView.Resources>-->
                         </TreeView>
                     </ScrollViewer>
 
-                    <GridSplitter Grid.Row="1" Height="5" HorizontalAlignment="Stretch"/>
+                    <Grid Grid.Row="1" Grid.ColumnSpan="1">
 
-                    <Grid Grid.Row="2" Grid.ColumnSpan="1">
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="auto"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
                         </Grid.RowDefinitions>
 
-                        <TextBlock Text="Selected image name"/>
-                        <Button Content="666" MinHeight="100" MinWidth="150" Grid.Row="1"/>
+                        <TextBlock x:Name="textblockCurrentImage" Text="{Binding CurrentImageFullpath, UpdateSourceTrigger=PropertyChanged}" 
+                                   MaxHeight="23"/>
+                        <Image Source="{Binding CurrentImageFullpath, UpdateSourceTrigger=PropertyChanged}" 
+                                   MaxWidth="300" MinHeight="100" Stretch="UniformToFill" Grid.Row="1"/>
+                        <Button x:Name="buttonAdd" Content="Add" MaxHeight="23" Grid.Row="2" 
+                                Command="{Binding cmdAddToGallery}" CommandParameter="{Binding ElementName=textblockCurrentImage, Path=Text}"/>
                     </Grid>
-                    
+
                     <GridSplitter Grid.Column="1" Grid.RowSpan="3" Width="5" ResizeBehavior="PreviousAndCurrent" ResizeDirection="Columns"/>
                     
                 </Grid>
@@ -123,10 +124,14 @@
                                         RelativeSource={RelativeSource AncestorType=ListView}}" />
                                 </ItemsPanelTemplate>
                             </ListView.ItemsPanel>
+                            
                             <ListView.ItemTemplate>
                                 <DataTemplate>
                                     <Border Margin="3">
-                                        <Image Source="{Binding Path}" MaxHeight="100" MaxWidth="150"/>
+                                        <StackPanel>
+                                            <Image Source="{Binding Fullpath}" MaxHeight="100" MaxWidth="150"/>
+                                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"/>
+                                        </StackPanel>
                                     </Border>
                                 </DataTemplate>
                             </ListView.ItemTemplate>
@@ -136,49 +141,53 @@
             </Expander.Content>
         </Expander>
 
-        <Grid Grid.Column="1">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="auto"/>
-            </Grid.RowDefinitions>
-            
-            <ContentControl x:Name="controlImage" Content="{Binding Images}">
-                <ContentControl.ContentTemplate>
-                    <DataTemplate>
-                        <Image Source="{Binding Path, UpdateSourceTrigger=PropertyChanged}"/>
-                    </DataTemplate>
-                </ContentControl.ContentTemplate>
-            </ContentControl>
+        <ContentControl Grid.Column="1" x:Name="controlImage" Content="{Binding Images}">
+            <ContentControl.ContentTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
 
-            <WrapPanel Grid.Row="1" HorizontalAlignment="Center">
-                <Button Content="--" Width="25" Height="25"/>
-                <Button Content="-" Width="25" Height="25"/>
-                <Button Content="+" Width="25" Height="25"/>
-                <Button Content="++" Width="25" Height="25"/>
-            </WrapPanel>
+                        <Image Source="{Binding Fullpath, UpdateSourceTrigger=PropertyChanged}"/>
 
-        </Grid>
+                        <Grid Grid.Row="1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
 
-        <Expander x:Name="expandProperties" ExpandDirection="Left" HorizontalAlignment="Right" IsExpanded="True" Grid.Column="2">
-            <Expander.Content>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="5"/>
-                        <ColumnDefinition Width="auto"/>
-                    </Grid.ColumnDefinitions>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="Path:" Margin="2,1"/>
+                                <TextBlock Text="{Binding Fullpath, UpdateSourceTrigger=PropertyChanged}" Margin="2,1"/>
+                            </StackPanel>
+                            
+                            <StackPanel HorizontalAlignment="Center" Grid.Column="1" Orientation="Horizontal">
+                                <Button Content="--" Width="25" Height="25"/>
+                                <Button Content="-" Width="25" Height="25"/>
+                                <Button Content="+" Width="25" Height="25"/>
+                                <Button Content="++" Width="25" Height="25"/>
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal" Grid.Column="2">
+                                <TextBlock Text="Rating:" Margin="2,1"/>
+                                <TextBlock Text="{Binding Rating, UpdateSourceTrigger=PropertyChanged}" Margin="2,1"/>
+                                <TextBlock Text="Size:" Margin="2,1"/>
+                                <TextBlock Text="{Binding SizeKb, UpdateSourceTrigger=PropertyChanged}" Margin="2,1"/>
+                                <TextBlock Text="Kb" Margin="2,1"/>
+                                <TextBlock Text="Added:" Margin="2,1"/>
+                                <TextBlock Text="{Binding Added, UpdateSourceTrigger=PropertyChanged}" Margin="2,1"/>
+                                <TextBlock Text="Contributor:" Margin="2,1"/>
+                                <TextBlock Text="{Binding Contributor, UpdateSourceTrigger=PropertyChanged}" Margin="2,1"/>
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+                </DataTemplate>
+            </ContentControl.ContentTemplate>
+        </ContentControl>
 
-                    <StackPanel Grid.Column="1">
-                        <WrapPanel>
-                            <TextBlock Text="666"/>
-                            <TextBox MinWidth="50"/>
-                        </WrapPanel>
-                    </StackPanel>
-
-                    <GridSplitter Width="5" ResizeBehavior="CurrentAndNext" ResizeDirection="Columns"/>
-
-                </Grid>
-            </Expander.Content>
-        </Expander>
 
     </Grid>
 </Window>
