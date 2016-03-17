@@ -33,11 +33,11 @@ namespace Gallery.Controls
 
         private void Signup_Click(object sender, RoutedEventArgs e)
         {
-            if (textboxPassword.Text == textboxConfirm.Text)
+            if (textboxPassword.Password == textboxConfirm.Password)
             {
-                if (_db.Add(textboxLogin.Text, textboxPassword.Text))
+                if (_db.Add(textboxLogin.Text, textboxPassword.Password))
                 {
-                    _parent.LoggedUser = _db.Get(textboxLogin.Text, textboxPassword.Text);
+                    _parent.LoggedUser = _db.Get(textboxLogin.Text, textboxPassword.Password);
                     _parent.Close();
                 }
                 else

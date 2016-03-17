@@ -21,7 +21,7 @@
         <TextBlock Text="Login:" Margin="1,1,5,1"/>
         <TextBox x:Name="textboxLogin" Grid.Column="1" Margin="1"/>
         <TextBlock Text="Password:" Grid.Row="1" Margin="1,1,5,1"/>
-        <TextBox x:Name="textboxPassword" Grid.Column="1" Grid.Row="1" Margin="1"/>
+        <PasswordBox x:Name="textboxPassword" Grid.Column="1" Grid.Row="1" Margin="1" />
         <Button Content="Log in" Grid.Row="2" Grid.ColumnSpan="2" VerticalAlignment="Bottom" Click="LoginClick"/>
 
     </Grid>

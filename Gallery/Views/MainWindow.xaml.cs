@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 
 namespace Gallery
 {
@@ -42,5 +43,12 @@ namespace Gallery
         }
 
         #endregion
+
+        private void ScrollViewer_PreviewMouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+            ScrollViewer scv = (ScrollViewer)sender;
+            scv.ScrollToVerticalOffset(scv.VerticalOffset - e.Delta);
+            e.Handled = true;
+        }
     }
 }

@@ -33,7 +33,7 @@ namespace Gallery.Controls
 
         private void LoginClick(object sender, RoutedEventArgs e)
         {
-            User logged = _db.Get(textboxLogin.Text, textboxPassword.Text);
+            User logged = _db.Get(textboxLogin.Text, textboxPassword.Password);
             if (logged != null) 
             {
                 _parent.LoggedUser = logged;
