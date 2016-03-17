@@ -66,6 +66,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="LoginForm\Controls\controlLogin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginForm\Controls\controlSignup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoginForm\LoginWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -75,6 +87,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Auxiliary\SimpleCommand.cs" />
+    <Compile Include="Auxiliary\User.cs" />
+    <Compile Include="LoginForm\UserDatabase.cs" />
     <Compile Include="Model\Interfaces\iImageModel.cs" />
     <Compile Include="Model\LocalTree.cs" />
     <Compile Include="Model\LocalGallery.cs" />
@@ -88,6 +102,15 @@
     <Compile Include="ViewModel\Interfaces\iTreeViewModel.cs" />
     <Compile Include="ViewModel\TreeCompositeViewModel.cs" />
     <Compile Include="ViewModel\TreeViewModel.cs" />
+    <Compile Include="LoginForm\Controls\controlLogin.xaml.cs">
+      <DependentUpon>controlLogin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoginForm\Controls\controlSignup.xaml.cs">
+      <DependentUpon>controlSignup.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoginForm\LoginWindow.xaml.cs">
+      <DependentUpon>LoginWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>

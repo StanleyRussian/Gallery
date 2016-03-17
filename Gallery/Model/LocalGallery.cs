@@ -10,11 +10,13 @@ namespace Gallery
     // Class for an object which actually store list of images in List of iGalleryImage objects
     class LocalGallery : iGalleryModel
     {
+        private User loggedUser;
         public List<iImageModel> Images
         { get; set; }
 
-        public LocalGallery()
+        public LocalGallery(User argLoggedUser)
         {
+            loggedUser = argLoggedUser;
             Images = new List<iImageModel>();
             if (File.Exists("data"))
                 LoadGallery();

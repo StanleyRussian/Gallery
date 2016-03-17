@@ -9,7 +9,15 @@ namespace Gallery
     {
         private void OnStartup(object sender, StartupEventArgs e)
         {
-            iGalleryModel GalleryM = new LocalGallery();
+            ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            LoginWindow LoginW = new LoginWindow();
+            LoginW.ShowDialog();
+            if (LoginW.LoggedUser == null)
+                Shutdown();
+            else
+                ShutdownMode = ShutdownMode.OnLastWindowClose;
+
+            iGalleryModel GalleryM = new LocalGallery(LoginW.LoggedUser);
             iTreeModel TreeM = new LocalTree();
 
             iGalleryViewModel GalleryVM = new GalleryViewModel(GalleryM);

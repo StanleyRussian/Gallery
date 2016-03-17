@@ -1,0 +1,22 @@
+﻿<Window x:Class="Gallery.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Gallery"
+        mc:Ignorable="d"
+        Title="LoginWindow" Height="175" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <RadioButton x:Name="radioLogIn" Content="Log in" Margin="5,1" Checked="RadioLogin_Checked"/>
+            <RadioButton Content="Sign up" Margin="5,1" Checked="RadioSignup_Checked"/>
+        </StackPanel>
+
+        <ContentControl x:Name="LoginWindowContent" Grid.Row="1"/>
+    </Grid>
+</Window>
