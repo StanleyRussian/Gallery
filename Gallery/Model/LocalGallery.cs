@@ -16,7 +16,7 @@ namespace Gallery
         public LocalGallery()
         {
             Images = new List<iImageModel>();
-            if (File.Exists("../../data"))
+            if (File.Exists("data"))
                 LoadGallery();
         }
 
@@ -27,7 +27,7 @@ namespace Gallery
 
         public void SaveGallery()
         {
-            FileStream stream = new FileStream("../../data", FileMode.Create);
+            FileStream stream = new FileStream("data", FileMode.Create);
             BinaryFormatter formatter = new BinaryFormatter();
             formatter.Serialize(stream, Images);
             stream.Close();
@@ -35,7 +35,7 @@ namespace Gallery
 
         private void LoadGallery()
         {
-            FileStream stream = new FileStream("../../data", FileMode.Open);
+            FileStream stream = new FileStream("data", FileMode.Open);
             if (stream.Length == 0)
                 return;
             BinaryFormatter formatter = new BinaryFormatter();

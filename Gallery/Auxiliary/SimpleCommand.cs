@@ -18,11 +18,30 @@ namespace Gallery
         /// Initializes a new instance of the <see cref="SimpleCommand"/> class.
         /// </summary>
         /// <param name="action">Function to execute when command is called</param>
+        public SimpleCommand(Action<object> action)
+        {
+            _parameterizedAction = action;
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SimpleCommand"/> class.
+        /// </summary>
+        /// <param name="action">Function to execute when command is called</param>
+        public SimpleCommand(Action action)
+        {
+            _action = action;
+        }
+
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SimpleCommand"/> class.
+        /// </summary>
+        /// <param name="action">Function to execute when command is called</param>
         /// <param name="canExecute">Function which returns if command can be executed</param>
         public SimpleCommand(Action action, Predicate<object> canExecute)
         {
-            this._action = action;
-            this._canExecute = canExecute;
+            _action = action;
+            _canExecute = canExecute;
         }
 
         /// <summary>
@@ -33,8 +52,8 @@ namespace Gallery
         public SimpleCommand(Action<object> parameterizedAction, Predicate<object> canExecute)
         {
             //  Set the action.
-            this._parameterizedAction = parameterizedAction;
-            this._canExecute = canExecute;
+            _parameterizedAction = parameterizedAction;
+            _canExecute = canExecute;
         }
 
         ///// <summary>

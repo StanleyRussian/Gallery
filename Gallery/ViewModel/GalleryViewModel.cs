@@ -20,7 +20,7 @@ namespace Gallery
             Images = new ObservableCollection<ImageViewModel>();
             Refresh();
 
-            cmdAddToGallery = new SimpleCommand(AddToGallery_Execute, param => AddToGallery_CanExecute());
+            cmdAddToGallery = new SimpleCommand(AddToGallery_Execute);
         }
 
         private void Refresh()
@@ -35,6 +35,7 @@ namespace Gallery
         public ICommand cmdAddToGallery
         { get; private set; }
 
+
         private void AddToGallery_Execute(object argFullpath)
         {
             string Fullpath = argFullpath as string;
@@ -43,12 +44,6 @@ namespace Gallery
             _modelGallery.Add(Fullpath);
             Refresh();
         }
-
-        private bool AddToGallery_CanExecute()
-        {
-            return true;
-        }
-
         #endregion
 
         public void OnClose(object sender, CancelEventArgs e)

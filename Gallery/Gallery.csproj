@@ -74,7 +74,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="SimpleCommand.cs" />
+    <Compile Include="Auxiliary\SimpleCommand.cs" />
     <Compile Include="Model\Interfaces\iImageModel.cs" />
     <Compile Include="Model\LocalTree.cs" />
     <Compile Include="Model\LocalGallery.cs" />
@@ -111,7 +111,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
