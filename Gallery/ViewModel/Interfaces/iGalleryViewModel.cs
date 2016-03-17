@@ -12,5 +12,6 @@ namespace Gallery
         { get; }
 
         void OnClose(object sender, CancelEventArgs e);
+        void RemoveImage(string argFullpath);
     }
 }

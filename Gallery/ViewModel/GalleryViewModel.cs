@@ -27,7 +27,7 @@ namespace Gallery
         {
             Images.Clear();
             foreach (var image in _modelGallery.Images)
-                Images.Add(new ImageViewModel(image));
+                Images.Add(new ImageViewModel(image, this));
         }
 
         #region Commands
@@ -49,6 +49,12 @@ namespace Gallery
         public void OnClose(object sender, CancelEventArgs e)
         {
             _modelGallery.SaveGallery();
+        }
+
+        public void RemoveImage(string argFullpath)
+        {
+            _modelGallery.Remove(argFullpath);
+            Refresh();
         }
     }
 }

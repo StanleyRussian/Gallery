@@ -10,6 +10,7 @@ namespace Gallery
         { get; }
 
         void Add(string argFullpath);
+        void Remove(string argFullpath);
         void SaveGallery();
     }
 }

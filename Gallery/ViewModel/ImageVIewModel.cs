@@ -1,16 +1,23 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Windows.Input;
 
 namespace Gallery
 {
     class ImageViewModel: INotifyPropertyChanged, iImageModel
     {
-        readonly iImageModel _modelImage;
+        private iImageModel _modelImage;
+        private iGalleryViewModel _governor;
 
-        public ImageViewModel(iImageModel image)
+        public ImageViewModel(iImageModel argImage, iGalleryViewModel argGovernor )
         {
-            _modelImage = image;
+            _modelImage = argImage;
+            _governor = argGovernor;
+
+            cmdIncRating = new SimpleCommand(IncRating_Execute);
+            cmdDecRating = new SimpleCommand(DecRating_Execute);
+            cmdRemove = new SimpleCommand(Remove_Execute);
         }
 
         #region Model Properties (iGalleryImage implementation)
@@ -28,7 +35,11 @@ namespace Gallery
         public int Rating
         {
             get { return _modelImage.Rating; }
-            set { _modelImage.Rating = value; }
+            set
+            {
+                _modelImage.Rating = value;
+                OnPropertyChanged("Rating");
+            }
         }
 
         public string Fullpath
@@ -76,6 +87,31 @@ namespace Gallery
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        #endregion
+
+        #region Commands
+
+        public ICommand cmdIncRating
+        { get; private set; }
+        public ICommand cmdDecRating
+        { get; private set; }
+        public ICommand cmdRemove
+        { get; private set; }
+
+        private void Remove_Execute()
+        {
+            _governor.RemoveImage(_modelImage.Fullpath);
+        }
+
+        private void IncRating_Execute()
+        {
+            Rating++;
+        }
+        private void DecRating_Execute()
+        {
+            Rating--;
         }
 
         #endregion

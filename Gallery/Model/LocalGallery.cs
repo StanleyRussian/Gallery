@@ -42,5 +42,10 @@ namespace Gallery
             Images = (List<iImageModel>)formatter.Deserialize(stream);
             stream.Close();
         }
+
+        public void Remove(string argFullpath)
+        {
+            Images.Remove(Images.Find(x => x.Fullpath == argFullpath));
+        }
     }
 }
