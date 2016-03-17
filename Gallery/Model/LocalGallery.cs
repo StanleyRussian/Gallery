@@ -10,15 +10,16 @@ namespace Gallery
     // Class for an object which actually store list of images in List of iGalleryImage objects
     class LocalGallery : iGalleryModel
     {
+        readonly private string _savepath;
         private User loggedUser;
         public List<iImageModel> Images
         { get; set; }
 
         public LocalGallery(User argLoggedUser)
         {
+            _savepath = "gallery";
             loggedUser = argLoggedUser;
             Images = new List<iImageModel>();
-            if (File.Exists("data"))
                 LoadGallery();
         }
 
@@ -29,7 +30,7 @@ namespace Gallery
 
         public void SaveGallery()
         {
-            FileStream stream = new FileStream("data", FileMode.Create);
+            FileStream stream = new FileStream(_savepath, FileMode.Create);
             BinaryFormatter formatter = new BinaryFormatter();
             formatter.Serialize(stream, Images);
             stream.Close();
@@ -37,7 +38,9 @@ namespace Gallery
 
         private void LoadGallery()
         {
-            FileStream stream = new FileStream("data", FileMode.Open);
+            if (!File.Exists(_savepath))
+                return;
+            FileStream stream = new FileStream(_savepath, FileMode.Open);
             if (stream.Length == 0)
                 return;
             BinaryFormatter formatter = new BinaryFormatter();
