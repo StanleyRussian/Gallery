@@ -15,8 +15,8 @@ namespace Gallery
             _modelImage = argImage;
             _governor = argGovernor;
 
-            cmdIncRating = new SimpleCommand(IncRating_Execute);
-            cmdDecRating = new SimpleCommand(DecRating_Execute);
+            cmdIncRating = new SimpleCommand(IncRating_Execute, IncRating_CanExecute);
+            cmdDecRating = new SimpleCommand(DecRating_Execute, DecRating_CanExecute);
             cmdRemove = new SimpleCommand(Remove_Execute);
         }
 
@@ -39,6 +39,8 @@ namespace Gallery
             {
                 _modelImage.Rating = value;
                 OnPropertyChanged("Rating");
+                cmdDecRating.CanExecute(null);
+                cmdIncRating.CanExecute(null);
             }
         }
 
@@ -109,11 +111,25 @@ namespace Gallery
         {
             Rating++;
         }
+
+        private bool IncRating_CanExecute(object arg)
+        {
+            if (Rating == 5)
+                return false;
+            else
+                return true;
+        }
         private void DecRating_Execute()
         {
             Rating--;
         }
-
+        private bool DecRating_CanExecute(object arg)
+        {
+            if (Rating == 0)
+                return false;
+            else
+                return true;
+        }
         #endregion
     }
 }

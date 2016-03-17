@@ -25,7 +25,7 @@ namespace Gallery
 
         public void Add(string argFullpath)
         {
-            Images.Add(new LocalImage(argFullpath));
+            Images.Add(new LocalImage(argFullpath, loggedUser.Login));
         }
 
         public void SaveGallery()

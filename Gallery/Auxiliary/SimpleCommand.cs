@@ -14,6 +14,8 @@ namespace Gallery
 
         private Predicate<object> _canExecute;
 
+        private bool canExecute = true;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="SimpleCommand"/> class.
         /// </summary>
@@ -51,31 +53,9 @@ namespace Gallery
         /// <param name="canExecute">Function which returns if command can be executed</param>
         public SimpleCommand(Action<object> parameterizedAction, Predicate<object> canExecute)
         {
-            //  Set the action.
             _parameterizedAction = parameterizedAction;
             _canExecute = canExecute;
         }
-
-        ///// <summary>
-        ///// Gets or sets a value indicating whether this instance can execute.
-        ///// </summary>
-        ///// <value>
-        /////     <c>true</c> if this instance can execute; otherwise, <c>false</c>.
-        ///// </value>
-        //public bool CanExecute
-        //{
-        //    get { return canExecute; }
-        //    set
-        //    {
-        //        if (canExecute != value)
-        //        {
-        //            canExecute = value;
-        //            EventHandler canExecuteChanged = CanExecuteChanged;
-        //            if (canExecuteChanged != null)
-        //                canExecuteChanged(this, EventArgs.Empty);
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Defines the method that determines whether the command can execute in its current state.
@@ -88,7 +68,18 @@ namespace Gallery
         /// </returns>
         bool ICommand.CanExecute(object parameter)
         {
-            return _canExecute == null ? true : _canExecute(parameter);
+            if (_canExecute == null)
+                return true;
+            else
+            {
+                if (canExecute != _canExecute(parameter))
+                {
+                    canExecute = _canExecute(parameter);
+                    if (CanExecuteChanged != null)
+                        CanExecuteChanged(this, EventArgs.Empty);
+                }
+                return canExecute;
+            }
         }
 
         /// <summary>

@@ -13,13 +13,14 @@ namespace Gallery
 
         public int Rating { get; set; }
 
-        public LocalImage(string path)
+        public LocalImage(string argPath, string argContributor)
         {
-            Fullpath = path;
+            Fullpath = argPath;
             Added = new DateTime();
             Added = DateTime.Now;
-            Size = new System.IO.FileInfo(path).Length;
+            Size = new System.IO.FileInfo(argPath).Length;
             Rating = 0;
+            Contributor = argContributor;
         }
     }
 }

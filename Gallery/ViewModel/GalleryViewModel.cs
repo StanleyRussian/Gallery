@@ -38,10 +38,9 @@ namespace Gallery
 
         private void AddToGallery_Execute(object argFullpath)
         {
-            string Fullpath = argFullpath as string;
-            if (Fullpath == "")
+            if (argFullpath as string == "")
                 return;
-            _modelGallery.Add(Fullpath);
+            _modelGallery.Add(argFullpath as string);
             Refresh();
         }
         #endregion
