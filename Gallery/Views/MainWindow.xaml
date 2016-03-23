@@ -142,7 +142,7 @@
                                         <StackPanel>
                                             <Image Source="{Binding Fullpath}" MaxHeight="100" MaxWidth="150"/>
                                             <TextBlock Text="{Binding Name}" HorizontalAlignment="Center"/>
-                                            <Button Command="{Binding cmdRemove}" Content="Remove" HorizontalAlignment="Stretch" Padding="3,1"/>
+                                            
 
                                         </StackPanel>
                                     </Border>
@@ -178,10 +178,7 @@
                             </WrapPanel>
 
                             <StackPanel HorizontalAlignment="Center" Grid.Column="1" Orientation="Horizontal">
-                                <Button Content="--" Width="25" Height="25"/>
-                                <Button Content="-" Width="25" Height="25"/>
-                                <Button Content="+" Width="25" Height="25"/>
-                                <Button Content="++" Width="25" Height="25"/>
+                                <Button Command="{Binding cmdRemove}" Content="Remove" HorizontalAlignment="Stretch" Padding="3,1"/>
                             </StackPanel>
 
                             <WrapPanel  Grid.Column="2" HorizontalAlignment="Right">
